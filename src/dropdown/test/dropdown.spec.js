@@ -229,25 +229,52 @@ describe('uib-dropdown', function() {
         element.remove();
       });
 
-      it('adds the menu to the body', function() {
-        expect($document.find('#dropdown-menu').parent()[0]).toBe($document.find('body')[0]);
+      it('does not add the menu to the body', function() {
+        expect($document.find('#dropdown-menu').parent()[0]).not.toBe($document.find('body')[0]);
       });
 
-      it('focuses the dropdown element on close', function() {
-        var toggle = element.find('[uib-dropdown-toggle]');
-        var menu = $document.find('#dropdown-menu a');
-        toggle.trigger('click');
-        menu.focus();
+      describe('when toggled open', function() {
+        var toggle;
+        beforeEach(function() {
+          toggle = element.find('[uib-dropdown-toggle]');
+          toggle.trigger('click');
+        });
+        it('adds the menu to the body', function() {
+          expect($document.find('#dropdown-menu').parent()[0]).toBe($document.find('body')[0]);
+        });
 
-        menu.trigger('click');
+        describe('when toggled closed', function() {
+          beforeEach(function() {
+            toggle.trigger('click');
+          });
+          it('removes the menu', function() {
+            expect($document.find('#dropdown-menu').length).toEqual(0);
+          });
+        });
 
-        expect(document.activeElement).toBe(toggle[0]);
-      });
-
-      it('removes the menu when the dropdown is removed', function() {
-        element.remove();
-        $rootScope.$digest();
-        expect($document.find('#dropdown-menu').length).toEqual(0);
+        describe('when closed by clicking on menu', function() {
+          var menu;
+          beforeEach(function() {
+            menu = $document.find('#dropdown-menu a');
+            menu.focus();
+            menu.trigger('click');
+          });
+          it('focuses the dropdown element on close', function() {
+            expect(document.activeElement).toBe(toggle[0]);
+          });
+          it('removes the menu', function() {
+            expect($document.find('#dropdown-menu').length).toEqual(0);
+          });
+        });
+        describe('when the dropdown is removed', function() {
+          beforeEach(function() {
+            element.remove();
+            $rootScope.$digest();
+          });
+          it('removes the menu', function() {
+            expect($document.find('#dropdown-menu').length).toEqual(0);
+          });
+        });
       });
     });
 
@@ -266,26 +293,52 @@ describe('uib-dropdown', function() {
         afterEach(function() {
           element.remove();
         });
-
-        it('adds the menu to the body', function() {
-          expect($document.find('#dropdown-menu').parent()[0]).toBe($document.find('body')[0]);
+        it('does not add the menu to the body', function() {
+          expect($document.find('#dropdown-menu').parent()[0]).not.toBe($document.find('body')[0]);
         });
 
-        it('focuses the dropdown element on close', function() {
-          var toggle = element.find('[uib-dropdown-toggle]');
-          var menu = $document.find('#dropdown-menu a');
-          toggle.trigger('click');
-          menu.focus();
+        describe('when toggled open', function() {
+          var toggle;
+          beforeEach(function() {
+            toggle = element.find('[uib-dropdown-toggle]');
+            toggle.trigger('click');
+          });
+          it('adds the menu to the body', function() {
+            expect($document.find('#dropdown-menu').parent()[0]).toBe($document.find('body')[0]);
+          });
 
-          menu.trigger('click');
+          describe('when toggled closed', function() {
+            beforeEach(function() {
+              toggle.trigger('click');
+            });
+            it('removes the menu', function() {
+              expect($document.find('#dropdown-menu').length).toEqual(0);
+            });
+          });
 
-          expect(document.activeElement).toBe(toggle[0]);
-        });
-
-        it('removes the menu when the dropdown is removed', function() {
-          element.remove();
-          $rootScope.$digest();
-          expect($document.find('#dropdown-menu').length).toEqual(0);
+          describe('when closed by clicking on menu', function() {
+            var menu;
+            beforeEach(function() {
+              menu = $document.find('#dropdown-menu a');
+              menu.focus();
+              menu.trigger('click');
+            });
+            it('focuses the dropdown element on close', function() {
+              expect(document.activeElement).toBe(toggle[0]);
+            });
+            it('removes the menu', function() {
+              expect($document.find('#dropdown-menu').length).toEqual(0);
+            });
+          });
+          describe('when the dropdown is removed', function() {
+            beforeEach(function() {
+              element.remove();
+              $rootScope.$digest();
+            });
+            it('removes the menu', function() {
+              expect($document.find('#dropdown-menu').length).toEqual(0);
+            });
+          });
         });
       });
 
@@ -305,29 +358,55 @@ describe('uib-dropdown', function() {
           expect($document.find('#dropdown-menu').parent()[0]).not.toBe($document.find('body')[0]);
         });
 
-        it('focuses the dropdown element on close', function() {
-          var toggle = element.find('[uib-dropdown-toggle]');
-          var menu = $document.find('#dropdown-menu a');
-          toggle.trigger('click');
-          menu.focus();
+        describe('when toggled open', function() {
+          var toggle;
+          beforeEach(function() {
+            toggle = element.find('[uib-dropdown-toggle]');
+            toggle.trigger('click');
+          });
+          it('does not add the menu to the body', function() {
+            expect($document.find('#dropdown-menu').parent()[0]).not.toBe($document.find('body')[0]);
+          });
 
-          menu.trigger('click');
+          describe('when toggled closed', function() {
+            beforeEach(function() {
+              toggle.trigger('click');
+            });
+            it('does not remove the menu', function() {
+              expect($document.find('#dropdown-menu').length).not.toEqual(0);
+            });
+          });
 
-          expect(document.activeElement).toBe(toggle[0]);
-        });
-
-        it('removes the menu when the dropdown is removed', function() {
-          element.remove();
-          $rootScope.$digest();
-          expect($document.find('#dropdown-menu').length).toEqual(0);
+          describe('when closed by clicking on menu', function() {
+            var menu;
+            beforeEach(function() {
+              menu = $document.find('#dropdown-menu a');
+              menu.focus();
+              menu.trigger('click');
+            });
+            it('focuses the dropdown element on close', function() {
+              expect(document.activeElement).toBe(toggle[0]);
+            });
+            it('does not removes the menu', function() {
+              expect($document.find('#dropdown-menu').length).not.toEqual(0);
+            });
+          });
+          describe('when the dropdown is removed', function() {
+            beforeEach(function() {
+              element.remove();
+              $rootScope.$digest();
+            });
+            it('removes the menu', function() {
+              expect($document.find('#dropdown-menu').length).toEqual(0);
+            });
+          });
         });
       });
-
     });
   });
 
   describe('using dropdown-append-to', function() {
-    var initialPage;
+    var initialPage, container;
 
     function dropdown() {
       return $compile('<li uib-dropdown dropdown-append-to="appendTo"><a href uib-dropdown-toggle></a><ul class="dropdown-menu" uib-dropdown-menu id="dropdown-menu"><li><a href>Hello On Container</a></li></ul></li>')($rootScope);
@@ -336,7 +415,7 @@ describe('uib-dropdown', function() {
     beforeEach(function() {
       $document.find('body').append(angular.element('<div id="dropdown-container"></div>'));
 
-      $rootScope.appendTo = $document.find('#dropdown-container');
+      $rootScope.appendTo = container = $document.find('#dropdown-container');
 
       element = dropdown();
       $document.find('body').append(element);
@@ -347,35 +426,64 @@ describe('uib-dropdown', function() {
       $document.find('#dropdown-container').remove();
     });
 
-    it('appends to container', function() {
-      expect($document.find('#dropdown-menu').parent()[0].id).toBe('dropdown-container');
+    it('does not add the menu to the container', function() {
+      expect($document.find('#dropdown-menu').parent()[0]).not.toBe(container[0]);
     });
-
-    it('toggles open class on container', function() {
-      var container = $document.find('#dropdown-container');
-
-      expect(container).not.toHaveClass('uib-dropdown-open');
-      element.find('[uib-dropdown-toggle]').click();
-      expect(container).toHaveClass('uib-dropdown-open');
-      element.find('[uib-dropdown-toggle]').click();
+    it('does not add open class on container', function() {
       expect(container).not.toHaveClass('uib-dropdown-open');
     });
 
-    it('focuses the dropdown element on close', function() {
-      var toggle = element.find('[uib-dropdown-toggle]');
-      var menu = $document.find('#dropdown-menu a');
-      toggle.trigger('click');
-      menu.focus();
+    describe('when toggled open', function() {
+      var toggle;
+      beforeEach(function() {
+        toggle = element.find('[uib-dropdown-toggle]');
+        toggle.trigger('click');
+      });
+      it('adds the menu to the container', function() {
+        expect($document.find('#dropdown-menu').parent()[0]).toBe(container[0]);
+      });
+      it('adds open class on container', function() {
+        expect(container).toHaveClass('uib-dropdown-open');
+      });
 
-      menu.trigger('click');
+      describe('when toggled closed', function() {
+        beforeEach(function() {
+          toggle.trigger('click');
+        });
+        it('removes the menu', function() {
+          expect($document.find('#dropdown-menu').length).toEqual(0);
+        });
+        it('removes open class from container', function() {
+          expect(container).not.toHaveClass('uib-dropdown-open');
+        });
+      });
 
-      expect(document.activeElement).toBe(toggle[0]);
-    });
-
-    it('removes the menu when the dropdown is removed', function() {
-      element.remove();
-      $rootScope.$digest();
-      expect($document.find('#dropdown-menu').length).toEqual(0);
+      describe('when closed by clicking on menu', function() {
+        var menu;
+        beforeEach(function() {
+          menu = $document.find('#dropdown-menu a');
+          menu.focus();
+          menu.trigger('click');
+        });
+        it('focuses the dropdown element on close', function() {
+          expect(document.activeElement).toBe(toggle[0]);
+        });
+        it('removes the menu', function() {
+          expect($document.find('#dropdown-menu').length).toEqual(0);
+        });
+        it('removes open class from container', function() {
+          expect(container).not.toHaveClass('uib-dropdown-open');
+        });
+      });
+      describe('when the dropdown is removed', function() {
+        beforeEach(function() {
+          element.remove();
+          $rootScope.$digest();
+        });
+        it('removes the menu', function() {
+          expect($document.find('#dropdown-menu').length).toEqual(0);
+        });
+      });
     });
   });
 
