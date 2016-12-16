@@ -233,7 +233,7 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.multiMap', 'ui.bootstrap.
   };
 
   function removeDropdownMenu() {
-    self.dropdownMenu.remove();
+    $element.append(self.dropdownMenu);
   }
 
   scope.$watch('isOpen', function(isOpen, wasOpen) {
